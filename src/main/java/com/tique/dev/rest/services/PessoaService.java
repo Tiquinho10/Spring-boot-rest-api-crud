@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,18 +29,24 @@ public class PessoaService {
     }
 
     @Transactional
-    public void updatePessoa(Long id, String nome, String email){
+    public void updatePessoa(Long id,
+     //String nome,
+      //String email
+      Pessoa p){
        checkUser(id);
+       
       Optional<Pessoa> pessoa = pessoaRepository.findById(id);
-       if(nome != null && nome.length() > 0 && Objects.equals(pessoa.get().getNome(), nome)){
-                  pessoa.get().setNome(nome);
+       if(p.getNome() != null && p.getNome().length() > 0 && !Objects.equals(pessoa.get().getNome(), p.getNome())){
+                  pessoa.get().setNome(p.getNome());
        }
 
-       if(email != null && email.length() > 0 && Objects.equals(pessoa.get().getEmail(), email)){
-         checkEmail(email);
-
-         pessoa.get().setEmail(email);
+       if(p.getEmail() != null && p.getEmail().length() > 0 && !Objects.equals(pessoa.get().getEmail(), p.getEmail())){
+         checkEmail(p.getEmail());
+         pessoa.get().setEmail(p.getEmail());
 }
+
+   
+     
     }
 
     public void delPessoa(Long id){
